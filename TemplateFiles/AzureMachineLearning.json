@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "userStorageAccountId": {
+      "type": "string"
+    },
+    "newStorageAccountName": {
+      "type": "string"
+    },
+    "newStorageAccountTier": {
+      "type": "string"
+    },
+    "keyVaultIdentifierId": {
+      "type": "string"
+    },
+    "ownerEmail": {
+      "type": "string"
+    },
+    "planName": {
+      "type": "string"
+    },
+    "skuName": {
+      "type": "string"
+    },
+    "skuTier": {
+      "type": "string"
+    },
+    "skuCapacity": {
+      "type": "int"
+    },
+    "workspaceApiVersion": {
+      "type": "string"
+    },
+    "commitmentPlanApiVersion": {
+      "type": "string"
+    },
+    "storageApiVersion": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "[parameters('workspaceApiVersion')]",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "type": "Microsoft.MachineLearning/workspaces",
+      "properties": {
+        "userStorageAccountId": "[parameters('userStorageAccountId')]"
+      }
+    },
+    {
+      "apiVersion": "[parameters('commitmentPlanApiVersion')]",
+      "name": "[parameters('planName')]",
+      "type": "Microsoft.MachineLearning/commitmentPlans",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "tier": "[parameters('skuTier')]",
+        "capacity": "[parameters('skuCapacity')]"
+      },
+      "properties": {}
+    }
+  ]
+}

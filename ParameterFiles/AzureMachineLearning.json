@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "amlhip"
+        },
+        "location": {
+            "value": "southcentralus"
+        },
+        "userStorageAccountId": {
+            "value": "/subscriptions/1d6f8625-52ba-4273-a625-5a5008b3ae07/resourceGroups/TTECDemoRG/providers/Microsoft.Storage/storageAccounts/blobhipaml"
+        },
+        "newStorageAccountName": {
+            "value": "amlhipstorage"
+        },
+        "newStorageAccountTier": {
+            "value": "Standard_LRS"
+        },
+        "keyVaultIdentifierId": {
+            "value": ""
+        },
+        "ownerEmail": {
+            "value": ""
+        },
+        "planName": {
+            "value": "amlhipPlan"
+        },
+        "skuName": {
+            "value": "S2"
+        },
+        "skuTier": {
+            "value": "Standard"
+        },
+        "skuCapacity": {
+            "value": 1
+        },
+      "workspaceApiVersion": {
+        "value": "2016-04-01"
+      },
+        "commitmentPlanApiVersion": {
+            "value": "2016-05-01-preview"
+        },
+        "storageApiVersion": {
+            "value": "2016-01-01"
+        }
+    }
+}

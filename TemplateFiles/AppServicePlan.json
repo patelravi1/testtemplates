@@ -1,0 +1,49 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "aspHIP"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "centralus"
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard"
+    },
+    "skucode": {
+      "type": "string",
+      "defaultValue": "S1"
+    },
+    "workerSize": {
+      "type": "string",
+      "defaultValue": "Medium"
+    },
+    "numberOfWorkers": {
+      "type": "string",
+      "defaultValue": "4"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-03-01",
+      "name": "[parameters('name')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[parameters('location')]",
+      "kind": "",
+      "properties": {
+        "name": "[parameters('name')]",
+        "workerSize": "[parameters('workerSize')]",
+        "numberOfWorkers": "[parameters('numberOfWorkers')]",
+        "reserved": false
+      },
+      "sku": {
+        "Tier": "[parameters('sku')]",
+        "Name": "[parameters('skuCode')]"
+      }
+    }
+  ]
+}
