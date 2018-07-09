@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "value": "funchip"
+    },
+    "storageName": {
+      "value": "funchipstorage"
+    },
+    "hostingPlanName": {
+      "value": "aspHIP"
+    },
+    "hostingEnvironment": {
+      "value": ""
+    },
+    "location": {
+      "value": "Central US"
+    },
+    "serverFarmResourceGroup": {
+      "value": "TTECDemoRG"
+    },
+    "subscriptionId": {
+      "value": "1d6f8625-52ba-4273-a625-5a5008b3ae07"
+    }
+  }
+}
