@@ -1,0 +1,218 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "orgName": {
+      "type": "string"
+    },
+    "adminName": {
+      "type": "string"
+    },
+    "adminEmail": {
+      "type": "string"
+    },
+    "churnOption": {
+      "type": "int"
+    },
+    "c360Option": {
+      "type": "int"
+    },
+    "clvOption": {
+      "type": "int"
+    },
+    "dynamicscrmoption": {
+      "type": "int"
+    },
+    "gatewayinstall": {
+      "type": "string"
+    },
+    "dynamicscrmusername": {
+      "type": "string"
+    },
+    "dynamicscrmpassword": {
+      "type": "string"
+    },
+    "sprinklroption": {
+      "type": "int"
+    },
+    "sprinklrappid": {
+      "type": "string"
+    },
+    "sprinklrapikey": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-09-01",
+      "name": "aspHIP",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "centralus",
+      "kind": "",
+      "properties": {
+        "name": "aspHIP",
+        "workerSize": "Medium",
+        "numberOfWorkers": "4",
+        "reserved": false
+      },
+      "sku": {
+        "Tier": "Standard",
+        "Name": "S1"
+      }
+    },
+    {
+      "apiVersion": "2016-10-01",
+      "name": "lappHIP",
+      "type": "Microsoft.Logic/workflows",
+      "location": "centralus",
+      "properties": {
+        "definition": "[concat('{\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"actions\":{},\"triggers\":{},\"outputs\":{},\"$schema\":\"', 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#', '\"}')]",
+        "parameters": {},
+        "state": "Enabled"
+      }
+    },
+    {
+      "apiVersion": "2016-11-01",
+      "name": "adlahipadls",
+      "location": "centralus",
+      "type": "Microsoft.DataLakeStore/accounts",
+      "properties": {
+        "newTier": "Consumption",
+        "encryptionState": "Enabled",
+        "encryptionConfig": {
+          "type": "ServiceManaged"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-11-01",
+      "name": "adlahip",
+      "location": "centralus",
+      "dependsOn": [
+        "Microsoft.DataLakeStore/accounts/adlahipadls"
+      ],
+      "type": "Microsoft.DataLakeAnalytics/accounts",
+      "properties": {
+        "defaultDataLakeStoreAccount": "adlahipadls",
+        "dataLakeStoreAccounts": [
+          {
+            "name": "adlahipadls"
+          }
+        ],
+        "newTier": "Consumption"
+      }
+    },
+    {
+      "apiVersion": "2016-05-16",
+      "name": "aaship",
+      "location": "centralus",
+      "type": "Microsoft.AnalysisServices/servers",
+      "sku": {
+        "name": "S1"
+      },
+      "properties": {
+        "asAdministrators": {
+          "members": [
+            "azure-admin@nealanalytics.com"
+          ]
+        },
+        "managedMode": 1
+      }
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "blobhipaml",
+      "location": "southcentralus",
+      "type": "Microsoft.Storage/storageAccounts",
+      "sku": {
+        "name": "Standard_RAGRS"
+      },
+      "kind": "Storage",
+      "properties": {
+        "supportsHttpsTrafficOnly": false,
+        "encryption": {
+          "services": {
+            "blob": {
+              "enabled": true
+            },
+            "file": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2016-08-01",
+      "name": "funchip",
+      "type": "Microsoft.Web/sites",
+      "properties": {
+        "name": "funchip",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "AzureWebJobsDashboard",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=funchipstorage',';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', 'funchipstorage'), '2015-05-01-preview').key1)]"
+            },
+            {
+              "name": "AzureWebJobsStorage",
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=funchipstorage',';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', 'funchipstorage'), '2015-05-01-preview').key1)]"
+            },
+            {
+              "name": "FUNCTIONS_EXTENSION_VERSION",
+              "value": "~1"
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "6.5.0"
+            }
+          ],
+          "alwaysOn": true
+        },
+        "clientAffinityEnabled": false,
+        "serverFarmId": "[concat('/subscriptions/', '1d6f8625-52ba-4273-a625-5a5008b3ae07','/resourcegroups/', 'TTECDemoRG', '/providers/Microsoft.Web/serverfarms/aspHIP')]",
+        "hostingEnvironment": ""
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', 'funchipstorage')]"
+      ],
+      "location": "Central US",
+      "tags": {
+        "[concat('hidden-related:', '/subscriptions/', '1d6f8625-52ba-4273-a625-5a5008b3ae07','/resourcegroups/', 'TTECDemoRG', '/providers/Microsoft.Web/serverfarms/aspHIP')]": "empty"
+      },
+      "kind": "functionapp"
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "funchipstorage",
+      "location": "Central US",
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
+      "apiVersion": "2016-04-01",
+      "name": "amlhip",
+      "location": "southcentralus",
+      "type": "Microsoft.MachineLearning/workspaces",
+      "properties": {
+        "userStorageAccountId": "/subscriptions/1d6f8625-52ba-4273-a625-5a5008b3ae07/resourceGroups/TTECDemoRG/providers/Microsoft.Storage/storageAccounts/blobhipaml"
+      }
+    },
+    {
+      "apiVersion": "2016-05-01-preview",
+      "name": "amlhipPlan",
+      "type": "Microsoft.MachineLearning/commitmentPlans",
+      "location": "southcentralus",
+      "sku": {
+        "name": "S2",
+        "tier": "Standard",
+        "capacity": 1
+      },
+      "properties": {}
+    }
+  ]
+}
