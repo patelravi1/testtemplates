@@ -65,7 +65,6 @@
       "name": "lappHIP",
       "type": "Microsoft.Logic/workflows",
       "location": "centralus",
-      "resourceGroup": "TTECDemoRG",
       "properties": {
         "definition": "[concat('{\"contentVersion\":\"1.0.0.0\",\"parameters\":{},\"actions\":{},\"triggers\":{},\"outputs\":{},\"$schema\":\"', 'https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#', '\"}')]",
         "parameters": {},
@@ -77,7 +76,6 @@
       "name": "adlahipadls",
       "location": "centralus",
       "type": "Microsoft.DataLakeStore/accounts",
-      "resourceGroup": "TTECDemoRG",
       "properties": {
         "newTier": "Consumption",
         "encryptionState": "Enabled",
@@ -90,7 +88,6 @@
       "apiVersion": "2016-11-01",
       "name": "adlahip",
       "location": "centralus",
-      "resourceGroup": "TTECDemoRG",
       "dependsOn": [
         "Microsoft.DataLakeStore/accounts/adlahipadls"
       ],
@@ -109,7 +106,6 @@
       "apiVersion": "2016-05-16",
       "name": "aaship",
       "location": "centralus",
-      "resourceGroup": "TTECDemoRG",
       "type": "Microsoft.AnalysisServices/servers",
       "sku": {
         "name": "S1"
@@ -127,7 +123,6 @@
       "apiVersion": "2018-02-01",
       "name": "blobhipaml",
       "location": "southcentralus",
-      "resourceGroup": "TTECDemoRG",
       "type": "Microsoft.Storage/storageAccounts",
       "sku": {
         "name": "Standard_RAGRS"
@@ -153,7 +148,6 @@
       "apiVersion": "2016-08-01",
       "name": "funchip",
       "type": "Microsoft.Web/sites",
-      "resourceGroup": "TTECDemoRG",
       "properties": {
         "name": "funchip",
         "siteConfig": {
@@ -195,7 +189,6 @@
       "type": "Microsoft.Storage/storageAccounts",
       "name": "funchipstorage",
       "location": "Central US",
-      "resourceGroup": "TTECDemoRG",
       "properties": {
         "accountType": "Standard_LRS"
       }
@@ -204,7 +197,6 @@
       "apiVersion": "2018-02-01",
       "name": "blobhipaml",
       "location": "southcentralus",
-      "resourceGroup": "TTECDemoRG",
       "type": "Microsoft.Storage/storageAccounts",
       "sku": {
         "name": "Standard_RAGRS"
@@ -230,7 +222,6 @@
       "apiVersion": "2016-04-01",
       "name": "amlhip",
       "location": "southcentralus",
-      "resourceGroup": "TTECDemoRG",
       "type": "Microsoft.MachineLearning/workspaces",
       "properties": {
         "userStorageAccountId": "/subscriptions/1d6f8625-52ba-4273-a625-5a5008b3ae07/resourceGroups/TTECDemoRG/providers/Microsoft.Storage/storageAccounts/blobhipaml"
@@ -241,7 +232,6 @@
       "name": "amlhipPlan",
       "type": "Microsoft.MachineLearning/commitmentPlans",
       "location": "southcentralus",
-      "resourceGroup": "TTECDemoRG",
       "sku": {
         "name": "S2",
         "tier": "Standard",
