@@ -48,7 +48,6 @@
       "name": "aspHIP",
       "type": "Microsoft.Web/serverfarms",
       "location": "centralus",
-      "resourceGroup": "TTECDemoRG",
       "kind": "",
       "properties": {
         "name": "aspHIP",
