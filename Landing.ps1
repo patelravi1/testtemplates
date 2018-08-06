@@ -1,5 +1,5 @@
 ﻿#$subscriptionId = "1d6f8625-52ba-4273-a625-5a5008b3ae07";
-
+Add-AzureRmAccount
 #Login-AzureRmAccount
 #Select-AzureRmSubscription -SubscriptionID $subscriptionId;
 
